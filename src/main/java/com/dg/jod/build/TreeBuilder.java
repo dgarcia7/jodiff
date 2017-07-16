@@ -12,8 +12,9 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 
-public class DiffTreeBuilder<T>
+public class TreeBuilder<T>
 {
     private ComparablePackages comparablePackages = new ComparablePackages();
 
@@ -38,12 +39,21 @@ public class DiffTreeBuilder<T>
             if(CollectionUtil.isCollection(expected.getClass()))
             {
                 CollectionNode node = new CollectionNode(location);
-                Collection<?> expectedCollection = (Collection)expected;
-                Collection<?> actualCollection = (Collection)actual;
+                Collection<?> expectedCollection = (Collection<?>)expected;
+                Collection<?> actualCollection = (Collection<?>)actual;
+                Iterator<?> expectedIterator = expectedCollection.iterator();
+                Iterator<?> actualIterator = actualCollection.iterator();
                 long maxSize = findLargestCollectionSize(expectedCollection,actualCollection);
                 for(int c = 0; c < maxSize; c++)
                 {
-                    //
+                	Object expectedElement = null;
+                	Object actualElement = null;
+                	if(expectedIterator.hasNext())
+                		expectedElement = expectedIterator.next();
+                	if(actualIterator.hasNext())
+                		actualElement = actualIterator.next();
+                	AbstractNode indexNode = buildNodeHelper(expectedElement,actualElement,location+"["+c+"]");
+                    node.addIndex(c,indexNode);
                 }
                 return node;
             }
@@ -68,8 +78,7 @@ public class DiffTreeBuilder<T>
         }
         else
         {
-            // TODO: special case
-            return null;
+            return new LeafNode(expected,actual,location);
         }
     }
 
