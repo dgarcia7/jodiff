@@ -1,7 +1,5 @@
 package com.dg.jod.model.tree;
 
-import java.lang.reflect.Field;
-
 public class LeafNode extends AbstractNode
 {
     private Object expected = null;
@@ -26,5 +24,15 @@ public class LeafNode extends AbstractNode
         {
             return expected.equals(actual);
         }
+    }
+    
+    public Object getExpected()
+    {
+    	return expected;
+    }
+    
+    public Object getActual()
+    {
+    	return actual;
     }
 }
