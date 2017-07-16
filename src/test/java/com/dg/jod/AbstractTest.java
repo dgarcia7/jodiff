@@ -13,11 +13,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
-import com.dg.jod.model.tree.AbstractNode;
-import com.dg.jod.model.tree.CollectionNode;
-import com.dg.jod.model.tree.InternalNode;
-import com.dg.jod.model.tree.LeafNode;
-import com.dg.jod.model.tree.ObjectDifferenceTree;
 import com.dg.jod.tg.HighLevelObject;
 
 public abstract class AbstractTest
@@ -55,53 +50,5 @@ public abstract class AbstractTest
 		StringWriter stringWriter = new StringWriter();
 		marshaller.marshal(hlo,stringWriter);
 		System.out.println(stringWriter.toString());
-	}
-	
-	protected void traverse(ObjectDifferenceTree tree)
-	{
-		traverse(tree.getRootDiffNode(),0);
-	}
-	
-	protected void traverse(AbstractNode node, int level)
-	{
-		if(node == null)
-		{
-			//System.out.println(getTabs(level) + "null, dying");
-		}
-		else if(node instanceof InternalNode)
-		{
-			//System.out.println(getTabs(level) + "InternalNode - " + node.getLocation());
-			InternalNode internalNode = (InternalNode)node;
-			for(AbstractNode internalNodeChild : internalNode.getNodes())
-			{
-				traverse(internalNodeChild,level+1);
-			}
-		}
-		else if(node instanceof CollectionNode)
-		{
-			//System.out.println(getTabs(level) + "CollectionNode - " + node.getLocation());
-			CollectionNode collectionNode = (CollectionNode)node;
-			for(int c = 0; c < collectionNode.size(); c++)
-			{
-				AbstractNode collectionNodeChild = collectionNode.getIndex(c);
-				traverse(collectionNodeChild,level+1);
-			}
-		}
-		else if(node instanceof LeafNode)
-		{
-			System.out.println(getTabs(level) + "LeafNode - " + node.getLocation());
-		}
-		else
-		{
-			System.out.println(getTabs(level) + "unknown, dying - " + node.getLocation());
-		}
-	}
-	
-	private String getTabs(int count)
-	{
-		StringBuilder sb = new StringBuilder();
-		for(int c = 0; c < count; c++)
-			sb.append("\t");
-		return sb.toString();
 	}
 }

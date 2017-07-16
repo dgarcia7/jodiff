@@ -26,7 +26,5 @@ public class TreeBuilderTest extends AbstractTest
 		
 		ObjectDifferenceTree tree = objectUnderTest.buildTree(hloExpected,hloActual);
 		Assert.assertNotNull(tree);
-		
-		traverse(tree);
 	}
 }

@@ -9,8 +9,6 @@ import com.dg.jod.model.ComparablePackages;
 import com.dg.jod.build.CollectionUtil;
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.LinkedList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
