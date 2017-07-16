@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.dg.jod.AbstractTest;
-import com.dg.jod.graph.HighLevelObject;
 import com.dg.jod.model.tree.ObjectDifferenceTree;
+import com.dg.jod.tg.HighLevelObject;
 
 public class TreeBuilderTest extends AbstractTest
 {
@@ -26,5 +26,7 @@ public class TreeBuilderTest extends AbstractTest
 		
 		ObjectDifferenceTree tree = objectUnderTest.buildTree(hloExpected,hloActual);
 		Assert.assertNotNull(tree);
+		
+		traverse(tree);
 	}
 }

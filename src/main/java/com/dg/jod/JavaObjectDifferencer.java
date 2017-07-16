@@ -1,33 +1,21 @@
 package com.dg.jod;
 
 import com.dg.jod.model.tree.ObjectDifferenceTree;
+import com.dg.jod.build.TreeBuilder;
 import com.dg.jod.model.tree.AbstractNode;
-import java.lang.reflect.Field;
 
 public class JavaObjectDifferencer<T>
 {
-    public ObjectDifferenceTree diff(T expected, T actual)
+	private TreeBuilder<T> treeBuilder = new TreeBuilder<T>();
+	
+    public ObjectDifferenceTree diff(T expected, T actual) throws IllegalAccessException
     {
         return new ObjectDifferenceTree(diffHelper(expected,actual));
     }
 
-    private AbstractNode diffHelper(T expected, T actual)
+    private AbstractNode diffHelper(T expected, T actual) throws IllegalAccessException
     {
-        if(expected == null || actual == null)
-        {
-            //
-        }
-        else
-        {
-            Class<?> clazz = expected.getClass();
-            Field fields[] = clazz.getDeclaredFields();
-            for(Field field : fields)
-            {
-                field.setAccessible(true);
-            }
-        }
-
-
+        ObjectDifferenceTree tree = treeBuilder.buildTree(expected,actual);
 
 
         return null;

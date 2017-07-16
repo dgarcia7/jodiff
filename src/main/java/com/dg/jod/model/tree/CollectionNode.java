@@ -21,4 +21,9 @@ public class CollectionNode extends AbstractNode
     {
         return map.get(index);
     }
+    
+    public int size()
+    {
+    	return map.size();
+    }
 }

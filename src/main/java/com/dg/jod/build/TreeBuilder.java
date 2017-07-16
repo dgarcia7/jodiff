@@ -20,7 +20,7 @@ public class TreeBuilder<T>
 
     public ObjectDifferenceTree buildTree(T expected, T actual) throws IllegalAccessException
     {
-        String objectName = buildObjectName(expected);
+        String objectName = ObjectUtil.getObjectName(expected);
         AbstractNode root = buildNode(expected,actual,objectName);
         ObjectDifferenceTree tree = new ObjectDifferenceTree(root);
         return tree;
@@ -43,7 +43,7 @@ public class TreeBuilder<T>
                 Collection<?> actualCollection = (Collection<?>)actual;
                 Iterator<?> expectedIterator = expectedCollection.iterator();
                 Iterator<?> actualIterator = actualCollection.iterator();
-                long maxSize = findLargestCollectionSize(expectedCollection,actualCollection);
+                long maxSize = CollectionUtil.findLargestCollectionSize(expectedCollection,actualCollection);
                 for(int c = 0; c < maxSize; c++)
                 {
                 	Object expectedElement = null;
@@ -63,7 +63,7 @@ public class TreeBuilder<T>
             }
             else
             {
-                List<Field> fields = buildFieldList(clazz);
+                List<Field> fields = ObjectUtil.buildFieldList(clazz);
                 InternalNode internalNode = new InternalNode(location);
                 for(Field field : fields)
                 {
@@ -80,42 +80,5 @@ public class TreeBuilder<T>
         {
             return new LeafNode(expected,actual,location);
         }
-    }
-
-    public List<Field> buildFieldList(Class<?> clazz)
-    {
-        List<Field> fields = new LinkedList<Field>();
-        while(clazz != null)
-        {
-            Field fieldArray[] = clazz.getDeclaredFields();
-            fields.addAll(Arrays.asList(fieldArray));
-            clazz = clazz.getSuperclass();
-        }
-        return fields;
-    }
-
-    public String buildObjectName(T input)
-    {
-        try
-        {
-            return input.getClass().getName();
-        }
-        catch(Exception ex)
-        {
-            return "unknown";
-        }
-    }
-
-    private long findLargestCollectionSize(Collection<?> left, Collection<?> right)
-    {
-        int leftSize = 0;
-        int rightSize = 0;
-        if(left != null)
-            leftSize = left.size();
-        if(right != null)
-            rightSize = right.size();
-        if(leftSize > rightSize)
-            return leftSize;
-        return rightSize;
     }
 }

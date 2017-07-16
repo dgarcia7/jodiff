@@ -1,4 +1,4 @@
-package com.dg.jod.graph;
+package com.dg.jod.tg;
 
 public class MidLevelObject
 {
